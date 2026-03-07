@@ -1,5 +1,9 @@
 # Configuration Security Checklist
 
+Treat configuration heuristics as leads, not automatic findings. When a control appears to be
+missing, verify the effective application, web server, container, or CI configuration inside the
+scanned project before reporting it.
+
 ## 1. Secrets in Source Code
 
 Search for credentials, keys, and tokens committed to the repository.
@@ -48,7 +52,13 @@ Search for credentials, keys, and tokens committed to the repository.
 ```
 
 **Important:** Exclude test fixtures, example configs, and documentation from findings.
-Only flag secrets that appear to be real (not placeholder values like "xxx", "your-key-here", etc.).
+Only flag secrets that appear to be real. Ignore obvious placeholders and training values such as:
+- `example`, `sample`, `dummy`, `fake`, `test`, `placeholder`
+- `xxx`, `xxxx`, `changeme`, `replace-me`, `your-key-here`, `your-secret-here`
+- docs, fixtures, seed data, mock servers, and tutorial snippets unless the repo actually loads them in production paths
+- generated templates such as `.env.example`, `.env.sample`, `config.example.*`, or README snippets unless they contain what appears to be a real active credential
+
+When in doubt, verify whether the value is referenced by live application config, CI, or deployment code before reporting it.
 
 ---
 
@@ -105,7 +115,9 @@ Glob: **/*.map, **/sourceMappingURL
 
 ## 4. Security Headers
 
-**Check if the application sets these headers (absence is a finding):**
+**Check whether the effective application or web server configuration sets these headers.**
+Only report missing headers when neither the app nor the in-repo proxy/server config sets them
+for the deployed surface you are auditing.
 
 | Header | Purpose | Risk if Missing |
 |--------|---------|-----------------|
@@ -150,7 +162,7 @@ Glob: **/*.map, **/sourceMappingURL
 
 # Missing SameSite
 "SameSite\s*=\s*None|sameSite\s*[:=]\s*'none'|sameSite\s*[:=]\s*\"none\""
-(without Secure flag is a vulnerability)
+(without `Secure` on an auth or session cookie this is a real vulnerability; verify cookie purpose before reporting)
 ```
 
 ---
@@ -185,7 +197,7 @@ Glob: **/.github/workflows/*.yml, **/.gitlab-ci.yml, **/Jenkinsfile, **/azure-pi
 ```
 # Running as root
 "USER root|user:\s*root" in Dockerfiles
-(absence of USER directive means running as root by default)
+(absence of `USER` is evidence the image defaults to root; verify the Dockerfile is part of the deployed build before reporting)
 
 # Exposing unnecessary ports
 "EXPOSE" (check if all exposed ports are necessary)

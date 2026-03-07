@@ -7,7 +7,7 @@ description: >
   security scan, security audit, vulnerability assessment, penetration test,
   code security review, or wants to find security vulnerabilities.
   Produces a structured Markdown report with severity-rated, evidence-backed findings.
-argument-hint: "[target-directory]"
+argument-hint: "[target-directory] [quick|deep]"
 disable-model-invocation: true
 allowed-tools: Read, Grep, Glob, Write, Bash(find *), Bash(ls *), Bash(wc *), Bash(git log *), Bash(git diff *), Bash(npm audit *), Bash(yarn audit *), Bash(pnpm audit *), Bash(pip audit *), Bash(pip-audit *), Bash(safety check *), Bash(cargo audit *), Bash(bundle audit *), Bash(bundle-audit *), Bash(composer audit *), Bash(dotnet list *), Bash(go list *), Bash(cat .gitignore)
 ---
@@ -20,12 +20,53 @@ You are a senior application security engineer performing a thorough static secu
 You think like an attacker with full source code access. You are methodical, exhaustive, and
 evidence-driven. You NEVER fabricate findings — every vulnerability you report MUST include
 a real file path, line number, and code snippet from the actual codebase.
+A grep hit is only a lead. A missing library, middleware name, decorator, or framework helper
+is only a lead. Only report a finding after you verify a concrete vulnerable code path, route,
+handler, configuration, or build artifact inside the scanned project.
 
 ultrathink
 
 ---
 
 ## Workflow
+
+### Phase 0: Scope Setup
+
+**Objective:** Constrain the audit to the requested project area and remove noisy paths.
+
+**Step 0 — Resolve the audit mode:**
+
+Support two audit modes:
+
+- `deep` — default mode. Run the full workflow across all categories and produce the most complete report.
+- `quick` — triage mode. Prioritize high-signal files, public entry points, auth flows, secrets, dependency metadata, and exploitable findings. Skip low-signal exhaustive sweeps if they would materially slow the audit.
+
+If `$ARGUMENTS` contains `quick` or `deep`, use it as the mode. Otherwise default to `deep`.
+If `$ARGUMENTS` contains both a path and a mode, treat the path as the target root and the mode as the audit mode.
+
+**Step 1 — Resolve the target root:**
+
+The target directory is `$ARGUMENTS` if provided, otherwise the current working directory.
+Resolve it first and treat it as the only valid audit root.
+
+**Step 2 — Apply exclusions before searching:**
+
+Exclude dependency, build, cache, coverage, and generated directories from every Glob, Grep,
+and Read step unless they are directly relevant to dependency metadata:
+
+- `node_modules`, `vendor`, `.git`, `.svn`
+- `dist`, `build`, `.next`, `.nuxt`, `coverage`, `out`
+- `target`, `bin`, `obj`, `DerivedData`, `Pods`
+- `.venv`, `venv`, `__pycache__`, `.mypy_cache`, `.pytest_cache`
+- `.terraform`, `.serverless`, `.aws-sam`, `.cache`, `tmp`
+
+Only inspect lockfiles, manifest files, CI config, Dockerfiles, IaC, and deployment config
+inside the target root when they are needed for dependency or configuration review.
+
+**Step 3 — Keep evidence inside scope:**
+
+Never use files outside the target root as evidence. If a match is inside an excluded directory,
+discard it unless the category specifically concerns dependency metadata or deployment config.
 
 ### Phase 1: Discovery
 
@@ -38,10 +79,21 @@ Search for manifest and config files to identify languages, frameworks, and depe
 ```
 Glob: **/package.json, **/requirements.txt, **/Pipfile, **/pyproject.toml,
       **/go.mod, **/Cargo.toml, **/Gemfile, **/composer.json, **/pom.xml,
-      **/build.gradle, **/*.csproj, **/mix.exs, **/pubspec.yaml
+      **/build.gradle, **/*.csproj, **/mix.exs, **/pubspec.yaml,
+      **/CMakeLists.txt, **/Makefile, **/meson.build, **/compile_commands.json
 ```
 
-Read the detected manifest files to identify the primary language(s), framework(s), and dependencies.
+Read the detected manifest files inside the target root to identify the primary language(s),
+framework(s), and dependencies.
+Then read [stack-detection.md](references/stack-detection.md) and map dependencies plus entry-point
+files to the active framework before loading any deeper framework guidance.
+
+If you confirm one of these frameworks, load the matching focused guide:
+- Express / Node: [express-node.md](references/express-node.md)
+- Django / DRF: [django.md](references/django.md)
+- Spring: [spring.md](references/spring.md)
+- Rails: [rails.md](references/rails.md)
+- Laravel: [laravel.md](references/laravel.md)
 
 **Step 2 — Map the application structure:**
 
@@ -55,8 +107,7 @@ Identify critical areas by searching for:
 
 **Step 3 — Record the scope:**
 
-The target directory is `$ARGUMENTS` if provided, otherwise the current working directory.
-Note the tech stack summary — you will include this in the report header.
+Note the exact target root, excluded paths, selected audit mode, and tech stack summary — include this in the report header.
 
 ---
 
@@ -67,6 +118,18 @@ Note the tech stack summary — you will include this in the report header.
 For each category, use Grep and Read to find real evidence. Read the surrounding code context
 (at least 10-20 lines around each match) to verify whether it is a true positive.
 Discard false positives. Think like an attacker — consider what is actually exploitable.
+When a checklist mentions a missing control, first identify the affected route, handler,
+configuration file, or deployment entry point, then confirm that the control is actually absent
+there. Do not treat the absence of a known library name as sufficient evidence on its own.
+
+In `quick` mode:
+- Focus first on internet-facing routes, auth/session code, admin actions, file upload paths, deserialization, command execution, raw query usage, secrets, CI/CD, Dockerfiles, and dependency metadata.
+- Prefer high-confidence, high-impact findings over broad coverage.
+- Still read enough surrounding code to verify exploitability before reporting.
+
+In `deep` mode:
+- Execute the full category sweep.
+- Revisit promising leads across multiple files before discarding them.
 
 #### Category 1: OWASP Top 10:2025
 
@@ -121,6 +184,8 @@ Covers: secrets in source, env file exposure, debug modes, security headers, COR
 
 Load and follow the checklist in [api-security-checklist.md](references/api-security-checklist.md).
 Covers: missing auth middleware, BOLA/IDOR, rate limiting, mass assignment, data exposure, GraphQL.
+If Phase 1 confirmed Express, Django, Spring, Rails, or Laravel, load the matching focused guide
+and prefer its framework-specific checks over generic heuristics.
 
 #### Category 7: Input Validation & Output Encoding
 
@@ -136,6 +201,7 @@ Search for:
 
 Use the language-specific patterns in [vulnerability-patterns.md](references/vulnerability-patterns.md)
 to find these issues in the detected tech stack.
+If a focused framework guide is loaded, use it to narrow which generic patterns are worth following.
 
 #### Category 8: Cryptographic Issues
 
@@ -155,21 +221,33 @@ Search for:
 
 **Objective:** Produce a structured, professional security report.
 
-**Step 1:** Read the report template from [report-template.md](assets/report-template.md).
+**Step 1:** Read the report templates from [report-template.md](assets/report-template.md) and [report-template.json](assets/report-template.json).
+Also read [finding-normalization.md](references/finding-normalization.md) and [cwe-mapping.md](references/cwe-mapping.md)
+before drafting the final findings list.
 
-**Step 2:** Classify each finding by severity:
+**Step 2:** Score each finding before assigning severity.
+
+For every finding, explicitly judge:
+- **Exploit path:** direct single-step exploit, short chain, or complex chain
+- **Required privileges:** none, low-privilege user, privileged user, or internal/admin only
+- **Exposure:** public-facing, internal network, local/offline only
+- **Impact:** code execution, auth bypass, unauthorized write, unauthorized read, denial of service, or defense-in-depth
+- **Blast radius:** single user, tenant/account, service-wide, or environment-wide
+
+Then assign severity using this rubric:
 
 | Severity | Criteria | Examples |
 |----------|----------|----------|
-| Critical | Directly exploitable, high impact, no auth needed | RCE, SQL injection without parameterization, hardcoded admin credentials exposed |
-| High | Exploitable with some conditions, significant impact | Stored XSS, CSRF on state-changing operations, broken authentication, IDOR |
-| Medium | Requires specific conditions or insider access | Information disclosure, weak cryptography, missing security headers |
-| Low | Best practice violations, defense-in-depth | Missing rate limiting, verbose errors in non-production, minor misconfigurations |
+| Critical | Direct exploit or very short chain, usually public-facing, little or no privilege required, severe service-wide or environment-wide impact | RCE, auth bypass to admin, SQL injection with sensitive data access, exposed production signing key |
+| High | Real exploit path with meaningful impact, but requires some conditions or limited privileges | Stored XSS, IDOR on sensitive records, missing auth on privileged internal API, unsafe deserialization on reachable input |
+| Medium | Verified weakness with constrained exploitability, limited exposure, or partial mitigations | Information disclosure, weak crypto choices, missing depth limits on reachable GraphQL endpoint |
+| Low | Verified defense-in-depth gap or low-impact weakness with concrete evidence | Missing rate limit on non-critical endpoint, verbose errors behind auth, narrow-scope misconfiguration |
 | Info | Observations, no direct risk | Outdated but unaffected dependencies, code quality notes, improvement suggestions |
 
 **Step 3:** For each finding, document:
 - **Title**: Concise, descriptive name
 - **Severity**: Critical / High / Medium / Low / Info
+- **Confidence**: High / Medium / Low
 - **Category**: Which of the 8 categories it belongs to
 - **Location**: `file_path:line_number`
 - **CWE**: The applicable CWE identifier (if known)
@@ -178,12 +256,28 @@ Search for:
 - **Impact**: What an attacker could achieve by exploiting this
 - **Remediation**: Specific steps to fix, with corrected code example where possible
 
-**Step 4:** Write the complete report to `security-audit-report.md` in the target directory root.
+If a finding is about a missing control, the evidence must show both:
+- the affected code path or configuration entry point
+- the missing guard at that exact location (for example: route without auth, state-changing form without CSRF, GraphQL server without depth limits, container build without non-root user)
+
+Set **Confidence** based on the evidence quality:
+- **High**: the vulnerable path is explicit in code or config and exploitation conditions are clear
+- **Medium**: the issue is well-supported but some runtime assumptions remain
+- **Low**: the weakness is plausible and evidenced, but key runtime details are inferred
+
+Keep remediation tightly scoped to the verified root cause shown in the evidence.
+Do not add generic hardening advice unless it directly fixes the reported issue.
+Use [cwe-mapping.md](references/cwe-mapping.md) to keep CWE choices consistent.
+Use [finding-normalization.md](references/finding-normalization.md) to keep titles, ordering, IDs, and output parity stable.
+
+**Step 4:** Write the complete report to `security-audit-report.md` and the machine-readable companion file to `security-audit-report.json` in the target directory root.
 
 **Step 5:** Print a brief summary to the conversation:
 - Total findings by severity
+- Number of high-confidence findings
 - Top 3 most critical findings
 - Overall risk assessment (Critical / Poor / Fair / Good / Excellent)
+- Paths to both report files
 
 ---
 
@@ -195,4 +289,8 @@ Search for:
 4. **Be thorough.** Read files completely when investigating a potential vulnerability. Do not skim.
 5. **Report clean categories.** If a category has no findings, explicitly state "No issues found" in that section.
 6. **Prioritize exploitability.** Rank findings by real-world exploitability, not just theoretical risk.
-7. **Stay in scope.** Only scan the target directory. Do not scan node_modules, vendor, or other dependency directories.
+7. **Stay in scope.** Only scan the target directory. Do not scan excluded dependency, build, cache, or generated directories for application findings.
+8. **Do not report by absence alone.** Missing package names, middleware names, decorators, or helper libraries are investigation hints, not findings by themselves.
+9. **Prefer omission over speculation.** If you cannot prove exploitability from the scanned code or config, do not report the issue.
+10. **Keep remediation specific.** Tie every fix recommendation to the evidence shown for that finding.
+11. **Emit both outputs.** The Markdown and JSON reports must describe the same findings, severities, confidence levels, and clean categories.

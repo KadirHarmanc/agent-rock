@@ -72,10 +72,21 @@ read the surrounding code (10-20+ lines) to determine if it is a true positive.
 - Missing subresource integrity (SRI) on CDN includes
 - CI/CD pipeline without integrity verification steps
 
+**Manual fallback workflow when ecosystem audit tooling is unavailable or incomplete:**
+- Confirm whether a lockfile exists for each package manager in use.
+- Inspect manifest version ranges and flag broad ranges only when they materially weaken reproducibility.
+- Inspect Git-based, file-based, URL-based, or branch-based dependencies.
+- Inspect install hooks such as `preinstall`, `install`, `postinstall`, `prepare`, custom setup scripts, and bootstrap scripts.
+- Inspect CI/CD workflows for unpinned third-party actions and unsigned downloads.
+- Distinguish between hygiene issues and exploitable supply-chain exposure. Missing lockfiles or broad versions are usually `Low` or `Info` unless they combine with a more direct execution path.
+
 **Grep patterns:**
 ```
 # Unpinned versions in package.json
 '"\\*"|"latest"|">=|">\\d'
+
+# Git, file, URL, and branch-based dependencies
+"github:|git\+|git://|https://|http://|file:|workspace:|link:"
 
 # Downloading and running scripts without verification
 "curl.*\|.*sh|curl.*\|.*bash|wget.*\|.*sh|wget.*\|.*bash"
@@ -85,6 +96,10 @@ read the surrounding code (10-20+ lines) to determine if it is a true positive.
 
 # Post-install scripts (potential supply chain vector)
 '"preinstall"|"postinstall"|"prepare"'
+
+# Lockfiles and bootstrap scripts
+"package-lock\.json|yarn\.lock|pnpm-lock\.yaml|Pipfile\.lock|poetry\.lock|Cargo\.lock|Gemfile\.lock|composer\.lock"
+"bootstrap|setup|install|deps|dependency"
 ```
 
 ---

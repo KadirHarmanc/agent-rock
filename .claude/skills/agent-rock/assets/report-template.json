@@ -1,0 +1,74 @@
+{
+  "project": "[PROJECT_NAME]",
+  "date": "[AUDIT_DATE]",
+  "auditor": "agent-rock (Claude Code Security Audit Skill)",
+  "scope": "[TARGET_DIRECTORY]",
+  "audit_mode": "[quick|deep]",
+  "tech_stack": [
+    "[PRIMARY_LANGUAGE_OR_FRAMEWORK]"
+  ],
+  "summary": {
+    "executive_summary": "[2-3 paragraph non-technical summary]",
+    "overall_assessment": "[CRITICAL|POOR|FAIR|GOOD|EXCELLENT]",
+    "counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "total": 0,
+      "high_confidence": 0
+    }
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "title": "[Finding title]",
+      "severity": "[Critical|High|Medium|Low|Info]",
+      "confidence": "[High|Medium|Low]",
+      "category": "[Category name]",
+      "location": {
+        "file": "[file_path]",
+        "line": 1
+      },
+      "cwe": {
+        "id": "[CWE-000]",
+        "name": "[CWE Name]"
+      },
+      "description": "[Plain-language description]",
+      "evidence": {
+        "summary": "[Why this code or config proves the issue]",
+        "snippet_language": "[language]",
+        "snippet": "[Verified code or config snippet]"
+      },
+      "impact": "[Attacker impact]",
+      "remediation": {
+        "summary": "[Specific fix for the verified root cause]",
+        "example_language": "[language]",
+        "example": "[Corrected code example]"
+      },
+      "scoring": {
+        "exploit_path": "[direct|short-chain|complex-chain]",
+        "required_privileges": "[none|low|privileged|internal-only]",
+        "exposure": "[public|internal|local]",
+        "blast_radius": "[single-user|tenant|service-wide|environment-wide]"
+      }
+    }
+  ],
+  "categories_without_findings": [
+    "[Category name]"
+  ],
+  "recommendations_priority_matrix": [
+    {
+      "priority": "1 - Immediate",
+      "action": "[Action item]",
+      "effort": "[Low|Medium|High]",
+      "impact": "[Impact description]"
+    }
+  ],
+  "limitations": [
+    "Runtime-only behaviors may not be visible from static code and config alone.",
+    "Business logic flaws may require domain context or dynamic testing to confirm.",
+    "Controls enforced outside the repository may not be fully observable."
+  ]
+}

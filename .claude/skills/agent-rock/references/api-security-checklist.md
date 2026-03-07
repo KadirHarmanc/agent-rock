@@ -1,5 +1,16 @@
 # API Security Checklist
 
+Treat every grep hit as a lead, not a finding. Missing framework helpers, middleware names,
+or validation libraries are not enough on their own. Confirm the behavior on a concrete route,
+handler, schema, or error path before reporting anything.
+
+When a framework is confirmed, load the matching focused guide:
+- [express-node.md](express-node.md)
+- [django.md](django.md)
+- [spring.md](spring.md)
+- [rails.md](rails.md)
+- [laravel.md](laravel.md)
+
 ## 1. Authentication & Authorization on Endpoints
 
 **What to check:**
@@ -66,7 +77,8 @@
 "express-rate-limit|rate.limit|ratelimit|throttle|RateLimiter|@Throttle"
 "slowapi|flask-limiter|django-ratelimit|rack-attack"
 
-# If none found, it's a finding — check specifically on auth routes
+# If none are found, inspect login, signup, password reset, upload, search, and export routes manually.
+# Only report a finding when a concrete high-risk route lacks an effective limiting control.
 ```
 
 ---
@@ -119,7 +131,8 @@
 "bodyParser|express\.json\(|express\.urlencoded\("
 (check for limit option: { limit: '10mb' })
 
-# Request validation libraries (absence is a finding)
+# Request validation libraries
+# Their absence is only a lead. Confirm an endpoint accepts unvalidated or unbounded input before reporting.
 "joi|yup|zod|class-validator|cerberus|marshmallow|pydantic|FlaskForm|WTForms"
 ```
 
@@ -181,9 +194,9 @@
 # Introspection
 "introspection\s*:\s*true|enableIntrospection|__schema"
 
-# Missing depth/complexity limits
+# Depth/complexity limit hooks
 "depthLimit|queryComplexity|costAnalysis|maxDepth|complexity"
-(absence in GraphQL server config is a finding)
+(if absent, inspect the active GraphQL server setup and only report after confirming there is no equivalent guard)
 
 # GraphQL setup
 "ApolloServer|graphqlHTTP|GraphQLModule|Strawberry|graphene|Ariadne|gqlgen"
@@ -234,7 +247,7 @@
 
 # CSRF protection
 "csrf|csrfToken|_token|antiforgery|AntiForgeryToken"
-(absence on forms/state-changing endpoints is a finding)
+(if absent, confirm a cookie or session based state-changing flow is exposed without equivalent protection)
 ```
 
 ---
@@ -254,5 +267,5 @@
 
 # Global error handler
 "app\.use\(.*err.*req.*res|@app\.errorhandler|exception_handler|@ExceptionHandler"
-(absence is a finding)
+(if absent, trace an application error path and confirm errors are handled inconsistently or leak internals before reporting)
 ```

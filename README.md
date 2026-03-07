@@ -7,10 +7,14 @@ agent-rock is an open-source Claude Code skill that performs thorough static sec
 ## Features
 
 - **Auto-detects tech stack** — Works with JS/TS, Python, Java, Go, Ruby, PHP, C#, Rust, C/C++
+- **Framework-aware guidance** — Loads focused heuristics for Express, Django, Spring, Rails, and Laravel
+- **Quick and deep modes** — Supports fast triage scans and more exhaustive deep audits
 - **OWASP Top 10:2025** — Scans against the latest OWASP edition including new categories
 - **8 security categories** — Comprehensive coverage from injection to cryptography
-- **Evidence-backed findings** — Every finding includes file path, line number, and code snippet
-- **Professional report** — Structured Markdown with executive summary, severity ratings, and remediation guidance
+- **Evidence-backed findings** — Every finding includes file path, line number, verified evidence, and confidence
+- **Dual output** — Generates both Markdown and JSON reports for humans and tooling
+- **Consistent finding schema** — Normalizes IDs, confidence, CWE mapping, and ordering across both outputs
+- **Professional report** — Structured output with executive summary, severity ratings, confidence, and remediation guidance
 - **Zero dependencies** — Uses only Claude Code built-in tools, nothing to install
 - **Works on any codebase** — No configuration required
 
@@ -20,6 +24,7 @@ agent-rock is an open-source Claude Code skill that performs thorough static sec
 
 ```bash
 git clone https://github.com/emirhanakdeniz/agent-rock.git /tmp/agent-rock
+mkdir -p .claude/skills
 cp -r /tmp/agent-rock/.claude/skills/agent-rock .claude/skills/
 rm -rf /tmp/agent-rock
 ```
@@ -28,6 +33,7 @@ rm -rf /tmp/agent-rock
 
 ```bash
 git clone https://github.com/emirhanakdeniz/agent-rock.git /tmp/agent-rock
+mkdir -p ~/.claude/skills
 cp -r /tmp/agent-rock/.claude/skills/agent-rock ~/.claude/skills/
 rm -rf /tmp/agent-rock
 ```
@@ -40,21 +46,41 @@ In Claude Code, invoke the skill:
 /agent-rock
 ```
 
-Scan a specific directory:
+Use the convenience wrappers:
 
 ```
-/agent-rock ./src
+/rock-quick
+/rock-deep
+```
+
+If you run the command without arguments, it scans the current working directory.
+
+Typical usage from the repo root:
+
+```
+/rock-quick
+/rock-deep
+```
+
+Scan a specific subdirectory only when you need to narrow the scope:
+
+```
+/rock-quick ./src
+/rock-deep ./src
+/agent-rock ./src deep
 ```
 
 ## Output
 
-The skill generates `security-audit-report.md` in your project root containing:
+The skill generates `security-audit-report.md` and `security-audit-report.json` in the scanned directory root containing:
 
 - **Executive Summary** — Overall risk assessment for non-technical stakeholders
 - **Risk Score** — Finding counts by severity (Critical, High, Medium, Low, Info)
+- **Confidence** — A confidence level for each finding based on evidence quality
 - **Findings Table** — Quick overview of all issues found
 - **Detailed Findings** — Each with severity, location, evidence, impact, and remediation
 - **Priority Matrix** — Actionable remediation roadmap
+- **JSON Companion Report** — Machine-readable findings for automation and CI tooling
 - **Methodology** — How the audit was conducted
 
 ## Categories Scanned
@@ -83,6 +109,12 @@ The skill generates `security-audit-report.md` in your project root containing:
 - Findings should be **validated by a security professional** before taking action on production systems.
 - The skill **never fabricates findings** — every reported issue references real code in your codebase.
 - It **skips dependency directories** (node_modules, vendor, etc.) to focus on your application code.
+
+## Known Limitations
+
+- Runtime-only vulnerabilities may not be visible from source code and configuration alone.
+- Business logic flaws often need domain context or dynamic testing to confirm.
+- Some controls may be enforced outside the repository, such as edge proxies, WAFs, or managed platform settings.
 
 ## Contributing
 
