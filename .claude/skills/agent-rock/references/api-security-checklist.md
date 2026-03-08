@@ -146,6 +146,11 @@ When a framework is confirmed, load the matching focused guide:
 - Stack traces in error responses
 - Verbose error messages revealing database schema or internal structure
 
+Only report a confirmed finding when the response path demonstrates exposure of real sensitive attributes,
+or when framework serialization behavior in this repo clearly proves those attributes are included.
+If the code only shows a broad model or object response without demonstrated sensitive fields, record a
+`hardening_observation` instead of a confirmed vulnerability.
+
 **Grep patterns:**
 ```
 # Returning raw DB objects

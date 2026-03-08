@@ -6,7 +6,7 @@ one that best matches the demonstrated root cause.
 
 ## Access Control
 
-- Missing function-level authorization, missing admin check: `CWE-862` Missing Authorization
+- Missing function-level authorization or missing admin check after authentication: `CWE-862` Missing Authorization
 - IDOR / BOLA / object ownership failure: `CWE-639` Authorization Bypass Through User-Controlled Key
 - Path traversal to unauthorized files: `CWE-22` Path Traversal
 
@@ -27,11 +27,18 @@ one that best matches the demonstrated root cause.
 
 ## Authentication and Session
 
-- Weak or missing auth on reachable endpoints: `CWE-306` Missing Authentication for Critical Function
+- Weak or missing authentication on reachable sensitive endpoints with no auth barrier at all: `CWE-306` Missing Authentication for Critical Function
 - Weak password policy or insecure password recovery: `CWE-521` Weak Password Requirements
 - Hardcoded password, token, or secret in source: `CWE-798` Use of Hard-coded Credentials
 - Session fixation or weak session management: `CWE-384` Session Fixation
 - Sensitive token in URL: `CWE-598` Information Exposure Through Query Strings in GET Request
+
+## Auth Decision Guide
+
+- No authentication gate on a reachable sensitive route -> prefer `CWE-306`
+- Authentication exists but a role, function-level, or admin guard is missing -> prefer `CWE-862`
+- Authentication exists but ownership or object-level authorization is missing -> prefer `CWE-639`
+- If multiple weaknesses exist on the same route, choose the CWE that best matches the verified root cause of the specific finding instead of collapsing them together
 
 ## Sensitive Data and Cryptography
 

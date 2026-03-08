@@ -15,6 +15,8 @@
 
 ### Risk Score
 
+Confirmed findings only. Hardening observations are listed separately below and should not be counted as vulnerabilities.
+
 | Severity | Count |
 |----------|-------|
 | Critical | [N] |
@@ -47,6 +49,7 @@
 | **Confidence** | [High / Medium / Low] |
 | **Category** | [Category name] |
 | **Location** | `[file_path:line_number]` |
+| **Related Locations** | `[secondary_file:line]` or `None` |
 | **CWE** | [CWE-ID: CWE Name] |
 
 **Description:**
@@ -81,6 +84,23 @@
 
 ---
 
+## Hardening Observations
+
+These are evidence-backed defense-in-depth or configuration notes that did not meet the threshold for a confirmed exploit-ready finding.
+Do not count them in the severity totals above.
+
+| # | Title | Confidence | Category | Location |
+|---|-------|------------|----------|----------|
+| H-001 | [Observation title] | [High / Medium / Low] | [Category] | `[file:line]` |
+
+For each observation, briefly document:
+
+- why it was not promoted to a confirmed finding
+- what code or config was reviewed
+- the narrow hardening action to take
+
+---
+
 ## Categories Without Findings
 
 The following categories were audited with no issues found:
@@ -106,13 +126,18 @@ This audit was performed as a static code analysis covering:
 1. **Discovery**: Automated tech stack detection and attack surface mapping
 2. **Analysis**: Systematic scanning across 8 security categories using pattern matching, code review, and dependency auditing
 3. **Verification**: Each potential finding was verified by reading surrounding code context to eliminate false positives
-4. **Classification**: Findings rated using severity criteria aligned with CVSS qualitative ratings
+4. **Classification**: Confirmed findings rated using severity criteria aligned with CVSS qualitative ratings
 
 ### Confidence Levels
 
 - **High**: Direct evidence in code or configuration with clear exploit conditions
 - **Medium**: Strong evidence with limited runtime assumptions
 - **Low**: Evidence-backed concern with important runtime assumptions still inferred
+
+### Output Classes
+
+- **Confirmed Findings**: Verified vulnerabilities with enough evidence to justify severity, impact, and remediation.
+- **Hardening Observations**: Real defense-in-depth or configuration concerns that did not meet the bar for a confirmed exploit-ready finding.
 
 ### Categories Audited
 

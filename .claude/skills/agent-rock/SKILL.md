@@ -23,6 +23,10 @@ a real file path, line number, and code snippet from the actual codebase.
 A grep hit is only a lead. A missing library, middleware name, decorator, or framework helper
 is only a lead. Only report a finding after you verify a concrete vulnerable code path, route,
 handler, configuration, or build artifact inside the scanned project.
+Use two output classes:
+- `findings`: confirmed vulnerabilities with enough evidence to justify severity, impact, and remediation
+- `hardening_observations`: evidence-backed defense-in-depth or configuration concerns that do not clear the confirmed finding bar
+Do not use `hardening_observations` to pad severity totals or to inflate the overall assessment.
 
 ultrathink
 
@@ -54,11 +58,11 @@ Resolve it first and treat it as the only valid audit root.
 Exclude dependency, build, cache, coverage, and generated directories from every Glob, Grep,
 and Read step unless they are directly relevant to dependency metadata:
 
-- `node_modules`, `vendor`, `.git`, `.svn`
+- `node_modules`, `vendor`, `.git`, `.svn`, `.claude`
 - `dist`, `build`, `.next`, `.nuxt`, `coverage`, `out`
 - `target`, `bin`, `obj`, `DerivedData`, `Pods`
 - `.venv`, `venv`, `__pycache__`, `.mypy_cache`, `.pytest_cache`
-- `.terraform`, `.serverless`, `.aws-sam`, `.cache`, `tmp`
+- `.terraform`, `.serverless`, `.aws-sam`, `.cache`, `tmp`, `benchmarks`
 
 Only inspect lockfiles, manifest files, CI config, Dockerfiles, IaC, and deployment config
 inside the target root when they are needed for dependency or configuration review.
@@ -126,10 +130,12 @@ In `quick` mode:
 - Focus first on internet-facing routes, auth/session code, admin actions, file upload paths, deserialization, command execution, raw query usage, secrets, CI/CD, Dockerfiles, and dependency metadata.
 - Prefer high-confidence, high-impact findings over broad coverage.
 - Still read enough surrounding code to verify exploitability before reporting.
+- Only include hardening observations when they are tightly connected to a verified risk path. Otherwise omit them.
 
 In `deep` mode:
 - Execute the full category sweep.
 - Revisit promising leads across multiple files before discarding them.
+- Broader hardening or hygiene notes are allowed, but keep them in `hardening_observations` unless you verified a concrete exploit path or directly exposed sensitive surface.
 
 #### Category 1: OWASP Top 10:2025
 
@@ -159,6 +165,9 @@ Search for:
 - Sensitive data stored without encryption
 - Missing data sanitization before display
 
+Only promote a response-serialization issue to a confirmed finding when the code proves that sensitive fields are actually exposed or the framework serialization behavior clearly includes them.
+If the response returns a broad model object but the sensitive fields are inferred rather than demonstrated, record it as a `hardening_observation`.
+
 #### Category 4: Dependency Vulnerabilities
 
 Run the appropriate audit command for the detected ecosystem:
@@ -174,6 +183,7 @@ If the audit command is not available, note it in the report and check manually:
 - Look for outdated dependency versions in manifest files
 - Check if lock files exist (package-lock.json, yarn.lock, Pipfile.lock, etc.)
 - Check for unpinned versions (using * or latest or broad ranges)
+- Treat missing lockfiles or broad version ranges as `hardening_observations` by default unless you can verify a more direct execution or integrity risk path.
 
 #### Category 5: Configuration Security
 
@@ -244,17 +254,31 @@ Then assign severity using this rubric:
 | Low | Verified defense-in-depth gap or low-impact weakness with concrete evidence | Missing rate limit on non-critical endpoint, verbose errors behind auth, narrow-scope misconfiguration |
 | Info | Observations, no direct risk | Outdated but unaffected dependencies, code quality notes, improvement suggestions |
 
-**Step 3:** For each finding, document:
+Before assigning CWE and severity to auth-related findings, classify the verified weakness correctly:
+- no authentication barrier on a reachable sensitive route -> authentication issue
+- authentication exists but admin or function-level guard is missing -> authorization issue
+- authentication exists but object ownership check is missing -> IDOR / BOLA
+
+**Step 3:** For each confirmed finding, document:
 - **Title**: Concise, descriptive name
 - **Severity**: Critical / High / Medium / Low / Info
 - **Confidence**: High / Medium / Low
 - **Category**: Which of the 8 categories it belongs to
 - **Location**: `file_path:line_number`
+- **Related Locations**: Additional supporting files when the verified root cause spans multiple files
 - **CWE**: The applicable CWE identifier (if known)
 - **Description**: What the issue is, in plain language
 - **Evidence**: The actual vulnerable code snippet from the codebase
 - **Impact**: What an attacker could achieve by exploiting this
 - **Remediation**: Specific steps to fix, with corrected code example where possible
+
+For each hardening observation, document:
+- a concise title
+- confidence
+- category
+- location
+- rationale for why it stayed below the confirmed finding bar
+- a narrow hardening suggestion
 
 If a finding is about a missing control, the evidence must show both:
 - the affected code path or configuration entry point

@@ -37,6 +37,7 @@ Look for:
 - Confirm request validation runs before model writes.
 - Review `$fillable`, `$guarded`, `forceFill`, `update`, and `create` calls.
 - Verify privileged flags are not accepted from request payloads.
+- When a mass-assignment issue spans both controller and model, keep the reachable write path as the primary location and record the model config as supporting evidence.
 
 **Useful patterns:**
 ```
@@ -63,3 +64,5 @@ Look for:
 - Empty `$guarded` is only a lead until you show a reachable write path to sensitive fields.
 - Missing validation libraries are not findings by themselves; prove the unsafe write or unsafe read.
 - Policy gaps on reachable privileged routes are often `High`.
+- Returning a full Eloquent model is only a confirmed data-exposure finding when you can demonstrate that sensitive attributes are actually serialized.
+- If `$hidden` is missing but the exposed sensitive fields are inferred rather than shown, keep it as a `hardening_observation`.

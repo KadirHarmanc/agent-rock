@@ -17,7 +17,8 @@
       "low": 0,
       "info": 0,
       "total": 0,
-      "high_confidence": 0
+      "high_confidence": 0,
+      "hardening_observations": 0
     }
   },
   "findings": [
@@ -31,6 +32,13 @@
         "file": "[file_path]",
         "line": 1
       },
+      "related_locations": [
+        {
+          "file": "[secondary_file_path]",
+          "line": 1,
+          "role": "[secondary-evidence|data-flow|guard-location]"
+        }
+      ],
       "cwe": {
         "id": "[CWE-000]",
         "name": "[CWE Name]"
@@ -53,6 +61,20 @@
         "exposure": "[public|internal|local]",
         "blast_radius": "[single-user|tenant|service-wide|environment-wide]"
       }
+    }
+  ],
+  "hardening_observations": [
+    {
+      "id": "H-001",
+      "title": "[Defense-in-depth or configuration observation]",
+      "confidence": "[High|Medium|Low]",
+      "category": "[Category name]",
+      "location": {
+        "file": "[file_path]",
+        "line": 1
+      },
+      "rationale": "[Why this is worth noting even though it is not a confirmed exploit-ready finding]",
+      "suggestion": "[Scoped hardening recommendation]"
     }
   ],
   "categories_without_findings": [

@@ -78,7 +78,7 @@ read the surrounding code (10-20+ lines) to determine if it is a true positive.
 - Inspect Git-based, file-based, URL-based, or branch-based dependencies.
 - Inspect install hooks such as `preinstall`, `install`, `postinstall`, `prepare`, custom setup scripts, and bootstrap scripts.
 - Inspect CI/CD workflows for unpinned third-party actions and unsigned downloads.
-- Distinguish between hygiene issues and exploitable supply-chain exposure. Missing lockfiles or broad versions are usually `Low` or `Info` unless they combine with a more direct execution path.
+- Distinguish between hygiene issues and exploitable supply-chain exposure. Missing lockfiles or broad versions should usually land in `hardening_observations`, not confirmed findings, unless they combine with a more direct execution path.
 
 **Grep patterns:**
 ```

@@ -77,5 +77,6 @@ Look for:
 ## Severity Notes
 
 - Missing auth on a reachable privileged route is often `High` or `Critical` depending on impact.
+- IDOR on user, billing, invoice, or other cross-account data is usually `High` when it exposes another user's records.
 - Session misconfiguration without a clear exploit path is often `Medium`.
 - Missing generic validation libraries is not a finding by itself; prove the unsafe data flow.
