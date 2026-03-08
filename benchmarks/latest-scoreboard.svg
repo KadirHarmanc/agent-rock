@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="626" viewBox="0 0 1260 626" role="img" aria-label="agent-rock benchmark scoreboard">
+<rect x="0" y="0" width="1260" height="626" fill="#ffffff" stroke="#ffffff" stroke-width="1" rx="0" />
+<rect x="28" y="28" width="1204" height="90" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1" rx="12" />
+<text x="50" y="62" fill="#1f2328" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="28" font-weight="700">agent-rock benchmark snapshot</text>
+<text x="50" y="88" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="400">Serious benchmark view for GitHub: current run, recent baselines, and case-level breakdown.</text>
+<text x="50" y="110" fill="#0969da" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="600">Latest run: baseline-5-newcases</text>
+<text x="980" y="110" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">Seed suite: 4 checks</text>
+<rect x="28" y="142" width="560" height="148" fill="#ffffff" stroke="#d0d7de" stroke-width="1" rx="12" />
+<text x="46" y="170" fill="#1f2328" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="700">Current Mode Summary</text>
+<rect x="40" y="188" width="536" height="34" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="46" y="210" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Mode</text>
+<text x="148" y="210" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Precision</text>
+<text x="268" y="210" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Recall</text>
+<text x="368" y="210" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Avg Score</text>
+<rect x="40" y="222" width="536" height="34" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="46" y="244" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="600">DEEP</text>
+<text x="148" y="244" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">25%</text>
+<text x="268" y="244" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">50%</text>
+<text x="368" y="244" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="700">42.50</text>
+<rect x="40" y="256" width="536" height="34" fill="#ffffff" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="46" y="278" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="600">QUICK</text>
+<text x="148" y="278" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">25%</text>
+<text x="268" y="278" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">50%</text>
+<text x="368" y="278" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="700">42.50</text>
+<rect x="604" y="142" width="628" height="216" fill="#ffffff" stroke="#d0d7de" stroke-width="1" rx="12" />
+<text x="622" y="170" fill="#1f2328" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="700">Baseline History</text>
+<rect x="616" y="188" width="604" height="34" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="622" y="210" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Run</text>
+<text x="754" y="210" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Quick Avg</text>
+<text x="884" y="210" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Deep Avg</text>
+<rect x="616" y="222" width="604" height="34" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="622" y="244" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="600">baseline-2</text>
+<text x="754" y="244" fill="#1a7f37" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">96.67</text>
+<text x="884" y="244" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">84.00</text>
+<rect x="616" y="256" width="604" height="34" fill="#ffffff" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="622" y="278" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="600">baseline-3</text>
+<text x="754" y="278" fill="#1a7f37" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">98.89</text>
+<text x="884" y="278" fill="#9a6700" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">94.17</text>
+<rect x="616" y="290" width="604" height="34" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="622" y="312" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="600">baseline-4</text>
+<text x="754" y="312" fill="#1a7f37" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">100.00</text>
+<text x="884" y="312" fill="#1a7f37" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">100.00</text>
+<rect x="616" y="324" width="604" height="34" fill="#ffffff" stroke="#0969da" stroke-width="1" rx="8" />
+<text x="622" y="346" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="600">baseline-5-newcases</text>
+<text x="754" y="346" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">42.50</text>
+<text x="884" y="346" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">42.50</text>
+<rect x="28" y="382" width="1204" height="216" fill="#ffffff" stroke="#d0d7de" stroke-width="1" rx="12" />
+<text x="46" y="410" fill="#1f2328" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="700">Current Run Case Breakdown</text>
+<rect x="40" y="428" width="1180" height="34" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="46" y="450" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Mode</text>
+<text x="126" y="450" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Case</text>
+<text x="413" y="450" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Matched</text>
+<text x="513" y="450" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Extra</text>
+<text x="593" y="450" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Precision</text>
+<text x="693" y="450" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Recall</text>
+<text x="788" y="450" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Severity</text>
+<text x="888" y="450" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">CWE</text>
+<text x="968" y="450" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">Score</text>
+<rect x="40" y="462" width="1180" height="34" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="46" y="484" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">deep</text>
+<text x="126" y="484" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">django-config-fragment</text>
+<text x="413" y="484" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">0/0</text>
+<text x="513" y="484" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">1</text>
+<text x="593" y="484" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">0%</text>
+<text x="693" y="484" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">0%</text>
+<text x="788" y="484" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">0%</text>
+<text x="888" y="484" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">0%</text>
+<text x="968" y="484" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="700">0.00</text>
+<rect x="40" y="496" width="1180" height="34" fill="#ffffff" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="46" y="518" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">deep</text>
+<text x="126" y="518" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">express-monorepo-noisy</text>
+<text x="413" y="518" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">1/1</text>
+<text x="513" y="518" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">1</text>
+<text x="593" y="518" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">50%</text>
+<text x="693" y="518" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">100%</text>
+<text x="788" y="518" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">100%</text>
+<text x="888" y="518" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">100%</text>
+<text x="968" y="518" fill="#9a6700" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="700">85.00</text>
+<rect x="40" y="530" width="1180" height="34" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="46" y="552" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">quick</text>
+<text x="126" y="552" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">django-config-fragment</text>
+<text x="413" y="552" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">0/0</text>
+<text x="513" y="552" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">1</text>
+<text x="593" y="552" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">0%</text>
+<text x="693" y="552" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">0%</text>
+<text x="788" y="552" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">0%</text>
+<text x="888" y="552" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">0%</text>
+<text x="968" y="552" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="700">0.00</text>
+<rect x="40" y="564" width="1180" height="34" fill="#ffffff" stroke="#d0d7de" stroke-width="1" rx="8" />
+<text x="46" y="586" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">quick</text>
+<text x="126" y="586" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">express-monorepo-noisy</text>
+<text x="413" y="586" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">1/1</text>
+<text x="513" y="586" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">1</text>
+<text x="593" y="586" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">50%</text>
+<text x="693" y="586" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">100%</text>
+<text x="788" y="586" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">100%</text>
+<text x="888" y="586" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="400">100%</text>
+<text x="968" y="586" fill="#9a6700" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="700">85.00</text>
+<text x="28" y="614" fill="#57606a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Generated from committed benchmark runs in benchmarks/runs/</text>
+</svg>

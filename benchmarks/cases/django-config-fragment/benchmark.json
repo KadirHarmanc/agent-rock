@@ -1,0 +1,23 @@
+{
+  "id": "django-config-fragment",
+  "name": "Django Config Fragment",
+  "stack": [
+    "python",
+    "django"
+  ],
+  "description": "Partial Django settings and a safe authenticated view. This case should stay clean because the repo only contains configuration fragments and env-driven defaults without a concrete exploit path.",
+  "expected_findings": [],
+  "negative_controls": [
+    {
+      "id": "DCF-N01",
+      "file": "project/settings.py",
+      "description": "Env-driven partial settings should not become confirmed findings by absence alone."
+    },
+    {
+      "id": "DCF-N02",
+      "file": "accounts/views.py",
+      "description": "Authenticated self-profile endpoint should stay clean."
+    }
+  ],
+  "allowed_extra_findings": 0
+}

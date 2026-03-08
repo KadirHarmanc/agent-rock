@@ -1,0 +1,10 @@
+{
+  "name": "workspace-suite",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "api": "node packages/api/src/server.js"
+  }
+}

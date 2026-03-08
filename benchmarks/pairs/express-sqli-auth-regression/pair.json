@@ -1,0 +1,117 @@
+{
+  "id": "express-sqli-auth-regression",
+  "name": "Express SQLi and Auth Regression",
+  "stack": [
+    "node",
+    "express"
+  ],
+  "description": "Paired vulnerable and fixed variants for auth + SQLi + IDOR regression testing.",
+  "variants": {
+    "vulnerable": {
+      "expected_findings": [
+        {
+          "id": "PAIR-EXP-001",
+          "file": "src/routes/admin.js",
+          "accepted_locations": [
+            "src/routes/admin.js"
+          ],
+          "category": "Authentication & Authorization",
+          "severity": "High",
+          "accepted_severities": [
+            "High",
+            "Critical"
+          ],
+          "cwe": "CWE-862",
+          "accepted_cwes": [
+            "CWE-862",
+            "CWE-306"
+          ],
+          "match_hints": {
+            "title_contains": [
+              "admin",
+              "auth"
+            ],
+            "evidence_contains": [
+              "/admin/export",
+              "requireAuth"
+            ]
+          },
+          "description": "Admin export route is reachable without authentication or authorization."
+        },
+        {
+          "id": "PAIR-EXP-002",
+          "file": "src/routes/users.js",
+          "accepted_locations": [
+            "src/routes/users.js"
+          ],
+          "category": "Input Validation & Output Encoding",
+          "severity": "High",
+          "accepted_severities": [
+            "High",
+            "Critical"
+          ],
+          "cwe": "CWE-89",
+          "accepted_cwes": [
+            "CWE-89"
+          ],
+          "match_hints": {
+            "title_contains": [
+              "sql",
+              "injection"
+            ],
+            "evidence_contains": [
+              "req.params.id",
+              "where id ="
+            ]
+          },
+          "description": "User-controlled route parameter is concatenated into a SQL query."
+        },
+        {
+          "id": "PAIR-EXP-003",
+          "file": "src/routes/users.js",
+          "accepted_locations": [
+            "src/routes/users.js"
+          ],
+          "category": "Authentication & Authorization",
+          "severity": "High",
+          "accepted_severities": [
+            "High"
+          ],
+          "cwe": "CWE-639",
+          "accepted_cwes": [
+            "CWE-639"
+          ],
+          "match_hints": {
+            "title_contains": [
+              "idor",
+              "authorization"
+            ],
+            "evidence_contains": [
+              "ownership check",
+              "authenticated user"
+            ]
+          },
+          "description": "Authenticated users can fetch arbitrary user records by ID without an ownership check."
+        }
+      ],
+      "negative_controls": [],
+      "allowed_extra_findings": 0
+    },
+    "fixed": {
+      "expected_findings": [],
+      "negative_controls": [
+        {
+          "id": "PAIR-FIX-001",
+          "file": "src/routes/admin.js",
+          "description": "Fixed admin export route should stay clean."
+        },
+        {
+          "id": "PAIR-FIX-002",
+          "file": "src/routes/users.js",
+          "description": "Fixed user lookup route should stay clean."
+        }
+      ],
+      "allowed_extra_findings": 0
+    }
+  }
+}

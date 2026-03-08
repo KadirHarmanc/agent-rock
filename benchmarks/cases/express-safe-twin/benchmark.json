@@ -1,0 +1,33 @@
+{
+  "id": "express-safe-twin",
+  "name": "Express Safe Twin",
+  "stack": [
+    "node",
+    "express"
+  ],
+  "description": "Express API that looks similar to the vulnerable seed but uses custom auth middleware, ownership checks, parameterized queries, and a lockfile.",
+  "expected_findings": [],
+  "negative_controls": [
+    {
+      "id": "EST-N01",
+      "file": "src/routes/admin.js",
+      "description": "Admin export route uses custom auth and role middleware and should stay clean."
+    },
+    {
+      "id": "EST-N02",
+      "file": "src/routes/users.js",
+      "description": "User lookup uses parameterized SQL plus ownership checks and should stay clean."
+    },
+    {
+      "id": "EST-N03",
+      "file": "src/routes/search.js",
+      "description": "Search route uses user input safely through a parameterized query."
+    },
+    {
+      "id": "EST-N04",
+      "file": "src/server.js",
+      "description": "App bootstrap applies custom response hardening and error handling."
+    }
+  ],
+  "allowed_extra_findings": 0
+}
