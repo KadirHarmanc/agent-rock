@@ -3,5 +3,4 @@
 *.swo
 __pycache__/
 *.pyc
-benchmarks/runs/
-benchmarks/workdir/
+benchmarks/
