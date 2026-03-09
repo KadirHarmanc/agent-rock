@@ -24,6 +24,12 @@ focused audit plan so you only load the framework references that matter.
 
 **When to load focused guidance:**
 - Load [express-node.md](express-node.md) for Express-style routers, middleware chains, session auth, file upload flows, and common Node API patterns.
+- Load [nextjs.md](nextjs.md) when you see `next` in dependencies, `next.config.js`, `app/` or `pages/` directory with file-based routing, Server Actions (`"use server"`), or `getServerSideProps`.
+- For NestJS (`nest-cli.json`, `@nestjs/core`, `app.module.ts`), apply Express patterns but also check Guards, Interceptors, Pipes, and decorator-based auth.
+- For Nuxt.js (`nuxt` in dependencies, `nuxt.config.ts`, `server/api/`), load [nextjs.md](nextjs.md) and adapt checks to Nuxt equivalents.
+
+**Frontend SPA detection:**
+- If you see `react`, `vue`, `@angular/core`, or `svelte` in dependencies, also load [frontend-security.md](frontend-security.md) for client-side specific checks.
 
 ## Python
 
@@ -39,6 +45,8 @@ focused audit plan so you only load the framework references that matter.
 
 **When to load focused guidance:**
 - Load [django.md](django.md) when you see Django settings, URLconf, ORM models, serializers, or DRF views.
+- Load [fastapi.md](fastapi.md) when you see FastAPI app creation, Depends() injection, Pydantic models, or uvicorn startup.
+- For Flask (`flask` in dependencies, `app.py`, `blueprints/`), apply general Python web patterns with focus on Jinja2 auto-escaping, Blueprint auth, CSRF via Flask-WTF, and session cookie security.
 
 ## Java / JVM
 
@@ -88,6 +96,35 @@ focused audit plan so you only load the framework references that matter.
 **Focus points:**
 - Distinguish server/network code, CLI utilities, parsers, and privileged helpers.
 - Prioritize memory safety issues on externally reachable parsing, network, file, or IPC paths.
+
+## AI/ML Projects
+
+**Manifest clues:**
+- `tensorflow`, `torch`, `pytorch`, `keras`, `scikit-learn`, `transformers`
+- `openai`, `anthropic`, `langchain`, `llama-index`, `cohere`
+- `mlflow`, `wandb`, `ray`, `bentoml`, `seldon`
+
+**File clues:**
+- `*.pkl`, `*.pt`, `*.pth`, `*.h5`, `*.onnx`, `*.safetensors`
+- `model_config.yaml`, `training/`, `inference/`, `notebooks/`
+- Jupyter notebooks (`.ipynb`) with ML imports
+
+**When to load focused guidance:**
+- Load [ai-ml-security.md](ai-ml-security.md) when AI/ML libraries are detected.
+- Focus on unsafe deserialization, prompt injection, API key exposure, and model supply chain.
+
+## Infrastructure as Code
+
+**File clues:**
+- `Dockerfile`, `docker-compose.yml`, `.dockerignore`
+- `*.tf`, `*.tfvars`, `terraform.tfstate`
+- Kubernetes manifests (`k8s/`, `deploy/`, `helm/`)
+- `serverless.yml`, `template.yaml` (SAM)
+- `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`
+
+**When to load focused guidance:**
+- Load [cloud-native-security.md](cloud-native-security.md) when Docker, K8s, Terraform, or serverless configs are found.
+- Load [supply-chain-advanced.md](supply-chain-advanced.md) when CI/CD pipelines or complex dependency configurations are detected.
 
 ## Ambiguous Repos
 

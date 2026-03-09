@@ -63,6 +63,11 @@ and Read step unless they are directly relevant to dependency metadata:
 - `target`, `bin`, `obj`, `DerivedData`, `Pods`
 - `.venv`, `venv`, `__pycache__`, `.mypy_cache`, `.pytest_cache`
 - `.terraform`, `.serverless`, `.aws-sam`, `.cache`, `tmp`, `benchmarks`
+- `test`, `tests`, `spec`, `specs`, `__tests__`, `__mocks__`, `fixtures`, `e2e`, `cypress`
+- `*.test.*`, `*.spec.*`, `*_test.*`, `test_*.*` (test files — skip unless verifying a finding's context)
+
+Also check for a `.agent-rock-ignore` file in the target root. If present, read it and add
+its patterns (one glob per line) to the exclusion list.
 
 Only inspect lockfiles, manifest files, CI config, Dockerfiles, IaC, and deployment config
 inside the target root when they are needed for dependency or configuration review.
@@ -98,6 +103,17 @@ If you confirm one of these frameworks, load the matching focused guide:
 - Spring: [spring.md](references/spring.md)
 - Rails: [rails.md](references/rails.md)
 - Laravel: [laravel.md](references/laravel.md)
+- Next.js / Nuxt.js: [nextjs.md](references/nextjs.md)
+- FastAPI / Starlette: [fastapi.md](references/fastapi.md)
+
+If the project contains frontend SPA code (React, Vue, Angular, Svelte), also load:
+- [frontend-security.md](references/frontend-security.md)
+
+If the project contains AI/ML components (LLM integrations, model serving, ML pipelines), also load:
+- [ai-ml-security.md](references/ai-ml-security.md)
+
+If the project contains infrastructure-as-code (Docker, Kubernetes, Terraform, serverless), also load:
+- [cloud-native-security.md](references/cloud-native-security.md)
 
 **Step 2 — Map the application structure:**
 
@@ -125,6 +141,11 @@ Discard false positives. Think like an attacker — consider what is actually ex
 When a checklist mentions a missing control, first identify the affected route, handler,
 configuration file, or deployment entry point, then confirm that the control is actually absent
 there. Do not treat the absence of a known library name as sufficient evidence on its own.
+
+Use [data-flow-verification.md](references/data-flow-verification.md) for the 3-pass source→sink→sanitization
+protocol when verifying injection-class findings.
+Use [safe-patterns.md](references/safe-patterns.md) to identify framework-provided safety mechanisms
+that may make a grep hit a false positive.
 
 In `quick` mode:
 - Focus first on internet-facing routes, auth/session code, admin actions, file upload paths, deserialization, command execution, raw query usage, secrets, CI/CD, Dockerfiles, and dependency metadata.

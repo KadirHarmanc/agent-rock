@@ -12,10 +12,13 @@ agent-rock is an open-source Claude Code skill that performs thorough static sec
 ## Features
 
 - **Auto-detects tech stack** — Works with JS/TS, Python, Java, Go, Ruby, PHP, C#, Rust, C/C++
-- **Framework-aware guidance** — Loads focused heuristics for Express, Django, Spring, Rails, and Laravel
+- **Framework-aware guidance** — Loads focused heuristics for Express, Django, Spring, Rails, Laravel, Next.js, and FastAPI
 - **Quick and deep modes** — Supports fast triage scans and more exhaustive deep audits
 - **OWASP Top 10:2025** — Scans against the latest OWASP edition including new categories
 - **8 security categories** — Comprehensive coverage from injection to cryptography
+- **Frontend & AI/ML security** — Dedicated modules for SPA frameworks, LLM integrations, and ML pipelines
+- **Cloud-native scanning** — Docker, Kubernetes, Terraform, and serverless security checks
+- **Diff-based review** — `/rock-diff` mode for scanning only changed code (ideal for CI/CD)
 - **Evidence-backed findings** — Every finding includes file path, line number, verified evidence, and confidence
 - **Dual output** — Generates both Markdown and JSON reports for humans and tooling
 - **Consistent finding schema** — Normalizes IDs, confidence, CWE mapping, and ordering across both outputs
@@ -31,6 +34,9 @@ agent-rock is an open-source Claude Code skill that performs thorough static sec
 git clone https://github.com/emirhanakdeniz/agent-rock.git /tmp/agent-rock
 mkdir -p .claude/skills
 cp -r /tmp/agent-rock/.claude/skills/agent-rock .claude/skills/
+cp -r /tmp/agent-rock/.claude/skills/rock-quick .claude/skills/
+cp -r /tmp/agent-rock/.claude/skills/rock-deep .claude/skills/
+cp -r /tmp/agent-rock/.claude/skills/rock-diff .claude/skills/
 rm -rf /tmp/agent-rock
 ```
 
@@ -40,6 +46,9 @@ rm -rf /tmp/agent-rock
 git clone https://github.com/emirhanakdeniz/agent-rock.git /tmp/agent-rock
 mkdir -p ~/.claude/skills
 cp -r /tmp/agent-rock/.claude/skills/agent-rock ~/.claude/skills/
+cp -r /tmp/agent-rock/.claude/skills/rock-quick ~/.claude/skills/
+cp -r /tmp/agent-rock/.claude/skills/rock-deep ~/.claude/skills/
+cp -r /tmp/agent-rock/.claude/skills/rock-diff ~/.claude/skills/
 rm -rf /tmp/agent-rock
 ```
 
@@ -56,6 +65,7 @@ Use the convenience wrappers:
 ```
 /rock-quick
 /rock-deep
+/rock-diff
 ```
 
 If you run the command without arguments, it scans the current working directory.
@@ -73,6 +83,14 @@ Scan a specific subdirectory only when you need to narrow the scope:
 /rock-quick ./src
 /rock-deep ./src
 /agent-rock ./src deep
+```
+
+Review only changed code (great for PRs):
+
+```
+/rock-diff
+/rock-diff --staged
+/rock-diff HEAD~3
 ```
 
 ## Output
